@@ -1,0 +1,32 @@
+:root { color: #17202a; background: #eef4f1; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input, select, textarea { font: inherit; }
+.app { width: min(100%, 720px); min-height: 100vh; margin: 0 auto; padding: 16px; }
+.header { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 16px; }
+h1, h2, p { margin-top: 0; }
+.eyebrow { color: #16805a; font-size: 12px; font-weight: 700; letter-spacing: .08em; margin-bottom: 4px; text-transform: uppercase; }
+.staff-chip { background: #fff; border-radius: 999px; box-shadow: 0 4px 16px #0001; padding: 10px 12px; white-space: nowrap; }
+.panel, .record-card { background: #fff; border-radius: 20px; box-shadow: 0 10px 32px #2d4f3f1a; padding: 20px; }
+.record-card { border: 2px solid transparent; margin: 14px 0; }
+.needs-review { border-color: #f0a000; }
+label { display: grid; gap: 6px; font-weight: 700; margin: 14px 0; }
+input, select, textarea { border: 1px solid #cbd8d2; border-radius: 12px; padding: 12px; width: 100%; }
+textarea { min-height: 130px; resize: vertical; }
+select[multiple] { min-height: 130px; }
+button { border: 0; border-radius: 16px; cursor: pointer; font-weight: 800; margin: 8px 0; min-height: 52px; padding: 14px 18px; width: 100%; }
+button:disabled { cursor: not-allowed; opacity: .45; }
+.primary { background: #16805a; color: #fff; }
+.secondary { background: #dfece7; color: #17543e; }
+.danger { background: #c93a3a; }
+.hint, .transcript { background: #f3f7f5; border-radius: 12px; color: #41524b; padding: 12px; }
+.warning { background: #fff6df; border-radius: 12px; color: #7a5200; padding: 10px; }
+.error { color: #bd2727; font-weight: 700; }
+.grid { display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); }
+.check { align-items: center; display: flex; flex-direction: row; gap: 10px; }
+.check input { width: auto; }
+.loader { animation: spin 1s linear infinite; border: 4px solid #dbe7e2; border-top-color: #16805a; border-radius: 50%; height: 42px; margin: 24px auto; width: 42px; }
+.recording-dot::before { animation: pulse 1s infinite; background: #c93a3a; border-radius: 50%; content: ''; display: inline-block; height: 12px; margin-right: 8px; width: 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 50% { opacity: .35; } }
+@media (max-width: 520px) { .app { padding: 12px; } .header { display: block; } .grid { grid-template-columns: 1fr; } }
