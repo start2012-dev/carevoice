@@ -43,7 +43,7 @@ function staffSelector(state: AppState): string {
 }
 
 function idleView(): string {
-  return panel('録音', `<p>複数利用者の記録をまとめて話せます。AIが利用者ごとに分割します。</p><button id="changeStaff" class="secondary">記録者を変更</button><button id="startRecording" class="primary">録音開始</button><div class="hint">例: 山田さんは昼食全量。佐藤さんは血圧120の70、脈72です。</div>`);
+  return panel('録音', `<p>複数利用者の記録をまとめて話せます。AIが利用者ごとに分割します。</p><button id="changeStaff" class="secondary">記録者を変更</button><button id="startRecording" class="primary">録音開始</button><div class="hint">例: 利用者Aさんは昼食全量。利用者Bさんは血圧120の70、脈72です。</div>`);
 }
 
 function confirmView(state: AppState): string {

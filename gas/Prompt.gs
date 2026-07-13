@@ -10,6 +10,7 @@ function careRecordSystemPrompt() {
     '確定できない場合はuserIdをnullにしてください。',
     '複数候補がある場合はuserCandidatesに候補を入れ、AIだけで1名へ確定しないでください。',
     '判定に自信がない場合はneedsReviewをtrueにしてください。',
+    '血圧は収縮期と拡張期の両方が聞き取れた場合のみ数値にし、片方だけの場合はneedsReviewをtrueにしてください。',
     'JSONのみを返してください。形式は{"records":[{"userId":string|null,"userName":string,"userCandidates":[{"userId":string,"userName":string}],"bloodPressureSystolic":number|null,"bloodPressureDiastolic":number|null,"pulse":number|null,"categories":string[],"careRecord":string,"needsReview":boolean,"reviewReasons":string[]}]}です。'
   ].join('\n');
 }

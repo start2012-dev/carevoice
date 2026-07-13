@@ -8,6 +8,8 @@ async function postToGas<T>(body: unknown): Promise<T> {
 
   const response = await fetch(GAS_WEB_APP_URL, {
     method: 'POST',
+    // GitHub Pages -> GAS Web Appではapplication/jsonだとCORSプリフライトが発生するため、
+    // simple requestとして扱われるtext/plainでJSON文字列を送る。
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify(body),
   });
@@ -27,7 +29,7 @@ export async function processAudio(audio: AudioPayload, staff: Staff, users: Use
   return postToGas<ProcessAudioResponse>({
     action: 'processAudio',
     audio,
-    context: { recordDate, staff, users },
+    context: { recordDate, staffId: staff.staffId, userCount: users.length },
     meta: { recordedAt: new Date().toISOString(), clientVersion: APP_VERSION },
   });
 }
