@@ -1,29 +1,46 @@
 function doPost(e) {
   try {
-    const body = JSON.parse(e.postData.contents || '{}');
+    const body = JSON.parse(
+      (e && e.postData && e.postData.contents) || '{}',
+    );
+
     switch (body.action) {
+      case 'authenticateFacility':
+        return jsonResponse(authenticateFacility_(body));
+
       case 'getMasters':
-        return jsonResponse({ ok: true, staff: getStaffMaster(), users: getUserMaster() });
+        requireFacilitySession_(body);
+
+        return jsonResponse({
+          ok: true,
+          staff: getStaffMaster(),
+          users: getUserMaster(),
+        });
+
       case 'processAudio':
+        requireFacilitySession_(body);
+
         return jsonResponse(processAudio(body));
+
       case 'saveRecords':
+        requireFacilitySession_(body);
+
         return jsonResponse(saveRecords(body));
+
       default:
-        return jsonResponse(errorResponse('UNKNOWN_ACTION', '未対応のactionです。'));
+        return jsonResponse(
+          errorResponse('UNKNOWN_ACTION', '未対応のactionです。'),
+        );
     }
   } catch (error) {
-    return jsonResponse(errorResponse('SERVER_ERROR', error.message || 'サーバーエラーが発生しました。'));
+    return jsonResponse(toApiErrorResponse_(error));
   }
 }
 
 function doGet() {
-  return jsonResponse({ ok: true, name: 'CareVoice API' });
-}
-
-function jsonResponse(payload) {
-  return ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(ContentService.MimeType.JSON);
-}
-
-function errorResponse(code, message) {
-  return { ok: false, error: { code: code, message: message } };
+  return jsonResponse({
+    ok: true,
+    name: 'CareVoice API',
+    authentication: 'facility-pin-required',
+  });
 }
