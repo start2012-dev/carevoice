@@ -65,7 +65,7 @@ function validateRecords(state: AppState): string {
   if (!state.selectedStaff) return '看護記録者を選択してください。';
   if (targets.length === 0) return '保存対象の記録がありません。';
   if (targets.some((record) => !record.userId)) return '利用者が未確定の記録があります。';
-  if (targets.some((record) => !record.recordDate || !record.careRecord.trim())) return '日付または記録本文が未入力です。';
+ if (targets.some((record) => !record.recordDate)) return '日付が未入力です。';
   return '';
 }
 
