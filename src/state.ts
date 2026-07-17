@@ -16,7 +16,8 @@ export const CATEGORIES: Category[] = [
 ];
 
 export const state: AppState = {
-  status: 'loadingMasters',
+  status: 'unlocking',
+  facilitySessionToken: '',
   staff: [],
   users: [],
   selectedStaff: null,
