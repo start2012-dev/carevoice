@@ -1,4 +1,5 @@
 export type AppStatus =
+  | 'unlocking'
   | 'loadingMasters'
   | 'selectingStaff'
   | 'idle'
@@ -59,6 +60,7 @@ export interface CareRecord {
 
 export interface AppState {
   status: AppStatus;
+  facilitySessionToken: string;
   staff: Staff[];
   users: UserMaster[];
   selectedStaff: Staff | null;
@@ -83,6 +85,7 @@ export interface ApiError {
 export type ApiResult<T> = ({ ok: true } & T) | { ok: false; error: ApiError };
 
 export type MastersResponse = ApiResult<{ staff: Staff[]; users: UserMaster[] }>;
+export type FacilitySessionResponse = ApiResult<{ sessionToken: string; expiresAt: string }>;
 
 export type ProcessAudioResponse = ApiResult<{
   transcript: string;
