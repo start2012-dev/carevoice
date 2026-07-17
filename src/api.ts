@@ -1,5 +1,14 @@
 import { APP_VERSION, GAS_WEB_APP_URL } from './config';
-import type { AudioPayload, CareRecord, MastersResponse, ProcessAudioResponse, SaveRecordsResponse, Staff, UserMaster } from './types';
+import type {
+  AudioPayload,
+  CareRecord,
+  FacilitySessionResponse,
+  MastersResponse,
+  ProcessAudioResponse,
+  SaveRecordsResponse,
+  Staff,
+  UserMaster,
+} from './types';
 
 async function postToGas<T>(body: unknown): Promise<T> {
   if (!GAS_WEB_APP_URL) {
@@ -21,25 +30,71 @@ async function postToGas<T>(body: unknown): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-export async function getMasters(): Promise<MastersResponse> {
-  return postToGas<MastersResponse>({ action: 'getMasters' });
-}
-
-export async function processAudio(audio: AudioPayload, staff: Staff, users: UserMaster[], recordDate: string): Promise<ProcessAudioResponse> {
-  return postToGas<ProcessAudioResponse>({
-    action: 'processAudio',
-    audio,
-    context: { recordDate, staffId: staff.staffId, userCount: users.length },
-    meta: { recordedAt: new Date().toISOString(), clientVersion: APP_VERSION },
+export async function unlockFacility(
+  facilityPin: string,
+): Promise<FacilitySessionResponse> {
+  return postToGas<FacilitySessionResponse>({
+    action: 'authenticateFacility',
+    facilityPin,
   });
 }
 
-export async function saveRecords(staff: Staff, records: CareRecord[]): Promise<SaveRecordsResponse> {
+export async function getMasters(
+  sessionToken: string,
+): Promise<MastersResponse> {
+  return postToGas<MastersResponse>({
+    action: 'getMasters',
+    sessionToken,
+  });
+}
+
+export async function processAudio(
+  audio: AudioPayload,
+  staff: Staff,
+  users: UserMaster[],
+  recordDate: string,
+  sessionToken: string,
+): Promise<ProcessAudioResponse> {
+  return postToGas<ProcessAudioResponse>({
+    action: 'processAudio',
+    sessionToken,
+    audio,
+    context: {
+      recordDate,
+      staffId: staff.staffId,
+      userCount: users.length,
+    },
+    meta: {
+      recordedAt: new Date().toISOString(),
+      clientVersion: APP_VERSION,
+    },
+  });
+}
+
+export async function saveRecords(
+  staff: Staff,
+  records: CareRecord[],
+  sessionToken: string,
+): Promise<SaveRecordsResponse> {
   const saveTargets = records.filter((record) => !record.excluded);
+
   return postToGas<SaveRecordsResponse>({
     action: 'saveRecords',
+    sessionToken,
     staff,
-    records: saveTargets.map(({ excluded: _excluded, clientRecordId: _clientRecordId, userCandidates: _userCandidates, needsReview: _needsReview, reviewReasons: _reviewReasons, ...record }) => record),
-    meta: { clientVersion: APP_VERSION, savedAt: new Date().toISOString() },
+    records: saveTargets.map(
+      ({
+        excluded: _excluded,
+        clientRecordId: _clientRecordId,
+        userCandidates: _userCandidates,
+        needsReview: _needsReview,
+        reviewReasons: _reviewReasons,
+        ...record
+      }) => record,
+    ),
+    meta: {
+      clientVersion: APP_VERSION,
+      savedAt: new Date().toISOString(),
+    },
   });
 }
