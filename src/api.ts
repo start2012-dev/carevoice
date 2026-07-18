@@ -12,14 +12,16 @@ import type {
 
 async function postToGas<T>(body: unknown): Promise<T> {
   if (!GAS_WEB_APP_URL) {
-    throw new Error('GAS Web App URLが未設定です。src/config.tsを設定してください。');
+    throw new Error(
+      'GAS Web App URLが未設定です。src/config.tsを設定してください。',
+    );
   }
 
   const response = await fetch(GAS_WEB_APP_URL, {
     method: 'POST',
-    // GitHub Pages -> GAS Web Appではapplication/jsonだとCORSプリフライトが発生するため、
-    // simple requestとして扱われるtext/plainでJSON文字列を送る。
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    headers: {
+      'Content-Type': 'text/plain;charset=utf-8',
+    },
     body: JSON.stringify(body),
   });
 
