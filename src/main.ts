@@ -270,7 +270,7 @@ async function loadMasters(): Promise<void> {
     state.errorMessage =
       error instanceof Error
         ? error.message
-        : 'マスタ取得に失敗しました.';
+        : 'マスタ取得に失敗しました。';
 
     draw();
   }
