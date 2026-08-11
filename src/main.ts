@@ -108,6 +108,29 @@ const handlers = {
       fail(error, '録音を開始できませんでした。マイク権限を確認してください。');
     }
   },
+　  async retryRecording(): Promise<void> {
+    if (
+      state.records.length > 0 &&
+      !window.confirm('現在の解析結果を破棄して録音し直しますか？')
+    ) {
+      return;
+    }
+
+    try {
+      await startRecorder();
+      state.transcript = '';
+      state.records = [];
+      state.errorMessage = '';
+      state.processingMessage = '';
+      state.status = 'recording';
+      draw();
+    } catch (error) {
+      fail(
+        error,
+        '録音を開始できませんでした。マイク権限を確認してください。',
+      );
+    }
+  },
 
   async stopRecording(): Promise<void> {
     try {
