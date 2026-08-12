@@ -208,15 +208,13 @@ function candidateSelect(
   if (record.userId) {
     suggestedIds.add(record.userId);
   }
-
-  const suggested = users.filter((user) =>
-    suggestedIds.has(user.userId),
+  const suggested = sortUsersByKana(
+    users.filter((user) => suggestedIds.has(user.userId)),
   );
-
-  const remaining = users.filter(
-    (user) => !suggestedIds.has(user.userId),
+  const remaining = sortUsersByKana(
+    users.filter((user) => !suggestedIds.has(user.userId)),
   );
-
+ 
   const selectedUserId = record.userId || '';
 
   const suggestedOptions = suggested
@@ -250,6 +248,33 @@ function candidateOption(
   return `<option value="${escapeAttr(user.userId)}" ${
     selectedUserId === user.userId ? 'selected' : ''
   }>${escapeHtml(user.userName)}</option>`;
+}
+const japaneseCollator = new Intl.Collator('ja', {
+  sensitivity: 'base',
+  numeric: true,
+});
+
+function sortUsersByKana(users: UserMaster[]): UserMaster[] {
+  return [...users].sort((left, right) => {
+    const readingComparison = japaneseCollator.compare(
+      left.userKana.trim() || left.userName,
+      right.userKana.trim() || right.userName,
+    );
+
+    if (readingComparison !== 0) {
+      return readingComparison;
+    }
+
+    const nameComparison = japaneseCollator.compare(
+      left.userName,
+      right.userName,
+    );
+
+    return (
+      nameComparison ||
+      japaneseCollator.compare(left.userId, right.userId)
+    );
+  });
 }
 
 function validateRecords(state: AppState): string {
