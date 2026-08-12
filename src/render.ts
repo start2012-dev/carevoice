@@ -165,13 +165,6 @@ function recordCard(
         .join('、')}</p>`
     : '';
 
-  const categoryOptions = CATEGORIES.map(
-    (category) =>
-      `<option value="${category}" ${
-        record.categories.includes(category) ? 'selected' : ''
-      }>${category}</option>`,
-  ).join('');
-
   return `<article class="record-card ${
     record.needsReview ? 'needs-review' : ''
   }"><label class="check"><input data-index="${index}" data-field="excluded" type="checkbox" ${
