@@ -1,4 +1,3 @@
-import { CATEGORIES } from './state';
 import type {
   AppState,
   CareRecord,
@@ -191,7 +190,7 @@ function recordCard(
     record.bloodPressureDiastolic ?? ''
   }"></label><label>脈拍<input inputmode="numeric" data-index="${index}" data-field="pulse" value="${
     record.pulse ?? ''
-  }"></label></div><label>分類<select data-index="${index}" data-field="categories" multiple>${categoryOptions}</select></label><label>看護介護記録<textarea data-index="${index}" data-field="careRecord">${escapeHtml(
+  }"></label></div><label>看護介護記録<textarea data-index="${index}" data-field="careRecord">${escapeHtml(
     record.careRecord,
   )}</textarea></label></article>`;
 }
@@ -386,16 +385,7 @@ function handleField(
     return;
   }
 
-  if (field === 'categories' && input instanceof HTMLSelectElement) {
-    handlers.updateRecord(index, {
-      categories: Array.from(input.selectedOptions).map(
-        (option) => option.value,
-      ) as CareRecord['categories'],
-    });
-
-    return;
-  }
-
+ 
   if (field === 'excluded' && input instanceof HTMLInputElement) {
     handlers.updateRecord(index, {
       excluded: !input.checked,
