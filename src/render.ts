@@ -35,7 +35,7 @@ function layout(state: AppState): string {
     ? `${staffChip(state.selectedStaff)}<button id="lockFacility" class="header-button" type="button">ロック</button>`
     : '';
 
-  return `<main class="app"><header class="header"><div><p class="eyebrow">CareVoice MVP</p><h1>看護介護記録</h1></div>${sessionControls}</header>${body(state)}</main>`;
+   return `<main class="app"><header class="header"><div><p class="eyebrow">CareVoice MVP</p><h1>看護介護記録</h1></div><div class="header-actions"><a class="help-link" href="./manual.html" target="_blank" rel="noopener">使い方</a>${sessionControls}</div></header>${body(state)}</main>`; 
 }
 
 function staffChip(staff: Staff | null): string {

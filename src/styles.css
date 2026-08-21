@@ -29,3 +29,39 @@ button:disabled { cursor: not-allowed; opacity: .45; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes pulse { 50% { opacity: .35; } }
 @media (max-width: 520px) { .app { padding: 12px; } .header { display: block; } .grid { grid-template-columns: 1fr; } }
+
+.header-actions {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.help-link {
+  background: #ffffff;
+  border: 1px solid #b9d3c8;
+  border-radius: 999px;
+  color: #17543e;
+  font-weight: 800;
+  padding: 10px 14px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.help-link:hover,
+.help-link:focus-visible {
+  background: #dfece7;
+  outline: 3px solid #9dd9c2;
+  outline-offset: 2px;
+}
+
+@media (max-width: 520px) {
+  .header {
+    align-items: stretch;
+    display: flex;
+  }
+
+  .header-actions {
+    align-items: flex-end;
+    flex-direction: column;
+  }
+}
